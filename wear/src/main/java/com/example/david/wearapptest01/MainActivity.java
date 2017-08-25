@@ -264,4 +264,9 @@ public class MainActivity extends WearableActivity {
         if (chronometer.isRunning())
             chronometer.stop();
     }
+
+    public void stopBeeper(View view) {
+        if (beepTimer.isWasStarted())
+            beepTimer.stop();
+    }
 }

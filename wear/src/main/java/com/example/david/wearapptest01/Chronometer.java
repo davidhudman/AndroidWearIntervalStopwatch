@@ -76,12 +76,17 @@ public class Chronometer extends TextView {
     }
 
     public void start() {
+        long tempElapsedTime = SystemClock.elapsedRealtime();
+
         if (isPaused) {
-            mBase = SystemClock.elapsedRealtime() - (pauseTime - mBase);
+            mBase = tempElapsedTime - (pauseTime - mBase);
+            lastSplit = tempElapsedTime - (pauseTime - lastSplit);
+        }
+        else {
+            lastSplit = tempElapsedTime;
         }
         mStarted = true;
         isPaused = false;
-        lastSplit = SystemClock.elapsedRealtime();
         updateRunning();
     }
 

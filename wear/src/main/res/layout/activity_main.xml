@@ -69,14 +69,14 @@
 
                 <!-- Interval Picker -->
                 <com.example.david.wearapptest01.NumberPickerCustom
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/numberPickerWidth"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/minutePickerInterval1"
                     max="9"
                     min="0" />
                 <com.example.david.wearapptest01.NumberPickerCustom
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/numberPickerWidth"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/minutePickerInterval2"
@@ -90,7 +90,7 @@
                     android:text="\n\n\n:" />
 
                 <com.example.david.wearapptest01.NumberPickerCustom
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/numberPickerWidth"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/secondPickerInterval1"
@@ -98,7 +98,7 @@
                     max="5"
                     min="0" />
                 <com.example.david.wearapptest01.NumberPickerCustom
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/numberPickerWidth"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/secondPickerInterval2"
@@ -113,7 +113,7 @@
                     android:text="\n\n\n." />
 
                 <com.example.david.wearapptest01.NumberPickerCustom
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/numberPickerWidth"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/millisecondPickerInterval1"
@@ -121,7 +121,7 @@
                     min="0" />
 
                 <com.example.david.wearapptest01.NumberPickerCustom
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/numberPickerWidth"
                     android:layout_height="wrap_content"
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/millisecondPickerInterval2"
@@ -129,6 +129,20 @@
                     min="0" />
 
             </LinearLayout>
+            <Button
+                android:id="@+id/stopChrono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stop Chrono"
+                android:onClick="stopChrono" />
+
+            <Button
+                android:id="@+id/stopBeeper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stop Beep"
+                android:onClick="stopBeeper" />
+
         </LinearLayout>
     </ScrollView>
     <!--
