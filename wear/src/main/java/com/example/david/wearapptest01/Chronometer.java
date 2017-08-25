@@ -82,9 +82,6 @@ public class Chronometer extends TextView {
             mBase = tempElapsedTime - (pauseTime - mBase);
             lastSplit = tempElapsedTime - (pauseTime - lastSplit);
         }
-        else {
-            lastSplit = tempElapsedTime;
-        }
         mStarted = true;
         isPaused = false;
         updateRunning();
@@ -95,11 +92,18 @@ public class Chronometer extends TextView {
 
         long tempTimeElapsed = SystemClock.elapsedRealtime();
 
-        String temp = getTextTimeSinceLastSplit(tempTimeElapsed, lastSplit) + "-" + getText(tempTimeElapsed);
+        String tempString;
+
+        if (lastSplit == 0) {
+            tempString = getTextTimeSinceLastSplit(tempTimeElapsed, mBase) + "-" + getText(tempTimeElapsed);    // try removing the first part of this and see if this line is ever even reached
+        }
+        else {
+            tempString = getTextTimeSinceLastSplit(tempTimeElapsed, lastSplit) + "-" + getText(tempTimeElapsed);
+        }
 
         lastSplit = tempTimeElapsed;
 
-        return temp;
+        return tempString;
     }
 
     public void stop() {
