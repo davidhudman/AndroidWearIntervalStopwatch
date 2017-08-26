@@ -110,26 +110,6 @@ public class MainActivity extends WearableActivity {
             }
         };
 
-        // allows user to click and remove the last split
-        splitsView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                String displayText = splitsView.getText().toString();
-                splitsView.setText(displayText.subSequence(displayText.indexOf('\n') + 1, displayText.length()));
-
-            }
-        });
-
-        // allows the user to long press and delete all the split data
-        splitsView.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view){
-                // clear text
-                splitsView.setText("");
-                return true;
-            }
-        });
-
 //        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 //            @Override
 //            public void onLayoutInflated(WatchViewStub stub) {
