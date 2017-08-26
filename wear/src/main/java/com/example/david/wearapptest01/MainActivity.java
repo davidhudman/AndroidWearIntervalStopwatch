@@ -51,10 +51,60 @@ public class MainActivity extends WearableActivity {
             secondPickerInterval2, millisecondPickerInterval2;
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+
+        savedInstanceState.putLong("chronoBase", chronometer.getBase()); // i think a null base would mean that it was never started
+        savedInstanceState.putBoolean("chronoIsPaused", chronometer.isPaused());
+        savedInstanceState.putBoolean("chronoIsRunning", chronometer.isRunning());
+        savedInstanceState.putLong("chronoPauseTime", chronometer.getPauseTime());
+        // save splits
+
+        // etc.
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+
+//        if (savedInstanceState.getLong("chronoBase") > 0) {     // we have data from the last session
+//            if (savedInstanceState.getBoolean("chronoIsPaused")) {
+//                chronometer.start();
+//                chronometer.setBase(savedInstanceState.getLong("chronoBase"));
+//                chronometer.stop(savedInstanceState.getLong("chronoPauseTime"));
+//            }
+//            else {
+//                chronometer.start();
+//                chronometer.setBase(savedInstanceState.getLong("chronoBase"));
+//            }
+//
+//
+//        } else {        // this is a brand new session with no previous data
+//            chronometer.stop();
+//            lapChrono.stop();
+//        }
+
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
+
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        lapChrono = (Chronometer) findViewById(R.id.lapChrono);
+
+        chronometer.stop();
+        lapChrono.stop();
+
+
 
         // final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
 
@@ -83,10 +133,7 @@ public class MainActivity extends WearableActivity {
         });
 
         mTextView = (TextView) findViewById(R.id.text);
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
-        lapChrono = (Chronometer) findViewById(R.id.lapChrono);
-        chronometer.stop();
-        lapChrono.stop();
+
 
         splitsView = (TextView) findViewById(R.id.splitsView);
 
