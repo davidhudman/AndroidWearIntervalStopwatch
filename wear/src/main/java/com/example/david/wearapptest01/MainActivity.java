@@ -1,6 +1,7 @@
 package com.example.david.wearapptest01;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 import static com.example.david.wearapptest01.R.id.chronometer;
+import static com.example.david.wearapptest01.R.id.lapChrono;
 
 public class MainActivity extends WearableActivity {
 
@@ -35,7 +37,7 @@ public class MainActivity extends WearableActivity {
     public int lap = 0;
     DecimalFormat threeDigits = new DecimalFormat("000");
     public TextView splitsView;
-    public Chronometer chronometer;
+    public Chronometer chronometer, lapChrono;
     public preciseCountdown beepTimer;
     private float countdownLen = 86400;
     private float countdownTick = (float) 18.75;
@@ -82,7 +84,10 @@ public class MainActivity extends WearableActivity {
 
         mTextView = (TextView) findViewById(R.id.text);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
+        lapChrono = (Chronometer) findViewById(R.id.lapChrono);
         chronometer.stop();
+        lapChrono.stop();
+
         splitsView = (TextView) findViewById(R.id.splitsView);
 
         minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
@@ -245,28 +250,50 @@ public class MainActivity extends WearableActivity {
         if (!chronometer.isRunning() && !beepTimer.isWasStarted() && !beepTimer.isWasCancelled()) {
             startBeeper();
             chronometer.start();
+            lapChrono.start();
             // startCountdown.setText("STOP BEEP");
         }
     }
 
     public void chronometerClick(View view) {
         if (chronometer.isRunning()) {
-            splitsView.setText("Lap" + threeDigits.format(lap++) + " - "
-                    + chronometer.getSplit()
-                    + "\n" + splitsView.getText().toString());  // add everything that was already there, too
+            if (lap == 0) {
+                splitsView.setText("Lap" + threeDigits.format(lap++) + " - "
+                        + chronometer.getSplit()
+                        + "\n" + splitsView.getText().toString());  // add everything that was already there, too
+            } else {
+                splitsView.setText("Lap" + threeDigits.format(lap++) + " - "
+                        + chronometer.getSplit()
+                        + "\n" + splitsView.getText().toString());  // add everything that was already there, too
+            }
+            lapChrono.restart();
+            lapChrono.setBase(chronometer.getLastSplit());
         }
-        else
-            // startBeeper(); // testing, move this later.
+        else {
+            long tempElapsedTime = SystemClock.elapsedRealtime();
             chronometer.start();
+            lapChrono.start();
+
+            if (lap == 0) {
+                lapChrono.setBase(chronometer.getmBase());
+            }
+            else {
+                lapChrono.setBase(chronometer.getLastSplit());
+            }
+        }
+
     }
 
     public void stopChrono(View view) {
-        if (chronometer.isRunning())
+        if (chronometer.isRunning()) {
             chronometer.stop();
+            lapChrono.stop(chronometer.getPauseTime());
+        }
     }
 
     public void stopBeeper(View view) {
-        if (beepTimer.isWasStarted())
+        if (beepTimer.isWasStarted()) {
             beepTimer.stop();
+        }
     }
 }

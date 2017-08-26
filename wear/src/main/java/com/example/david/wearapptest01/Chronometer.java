@@ -87,6 +87,17 @@ public class Chronometer extends TextView {
         updateRunning();
     }
 
+    public void restart() {
+        long tempElapsedTime = SystemClock.elapsedRealtime();
+
+        mBase = tempElapsedTime; // - (pauseTime - mBase);
+        //lastSplit = tempElapsedTime - (pauseTime - lastSplit);
+
+        mStarted = true;
+        isPaused = false;
+        updateRunning();
+    }
+
     public String getSplit() {
         updateRunning();
 
@@ -106,11 +117,34 @@ public class Chronometer extends TextView {
         return tempString;
     }
 
+    public long getLastSplit(){
+        return lastSplit;
+    }
+
+    public long getPauseTime() {
+        return pauseTime;
+    }
+
+    public void setPauseTime(long _pauseTime) {
+        pauseTime = _pauseTime;
+    }
+
+    public long getmBase() {
+        return mBase;
+    }
+
     public void stop() {
         isPaused = true;
         mStarted = false;
         mRunning = false;
         pauseTime = SystemClock.elapsedRealtime();
+    }
+
+    public void stop(long pause_Time) {
+        isPaused = true;
+        mStarted = false;
+        mRunning = false;
+        pauseTime = pause_Time;
     }
 
     public boolean isPaused() {
