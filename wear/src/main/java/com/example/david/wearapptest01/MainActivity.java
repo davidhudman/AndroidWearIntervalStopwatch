@@ -120,57 +120,6 @@ public class MainActivity extends WearableActivity {
         isStartBeepButtonAvailable();
 
         setupBeepingComponents();
-
-
-//        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
-//            @Override
-//            public void onLayoutInflated(WatchViewStub stub) {
-//                mTextView = (TextView) stub.findViewById(R.id.text);
-//                chronometer = (Chronometer) stub.findViewById(R.id.chronometer);
-//                chronometer.stop();
-//                splitsView = (TextView) stub.findViewById(R.id.splitsView);
-//
-//                minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
-//                secondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval1);
-//                millisecondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval1);
-//                minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
-//                secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
-//                millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
-//
-//                // create countdown timer for the sound alerts
-//                beepTimer = new preciseCountdown((int) (countdownLen * 1000), (int) (countdownTick * 1000), 0) {
-//                    @Override
-//                    public void onTick(long millisUntilFinished) {
-//                        playTheSound();
-//                    }
-//
-//                    @Override
-//                    public void onFinished() {
-//                        playTheSound();
-//                    }
-//                };
-//
-//                // allows user to click and remove the last split
-//                splitsView.setOnClickListener(new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View view){
-//                        String displayText = splitsView.getText().toString();
-//                        splitsView.setText(displayText.subSequence(displayText.indexOf('\n') + 1, displayText.length()));
-//
-//                    }
-//                });
-//
-//                // allows the user to long press and delete all the split data
-//                splitsView.setOnLongClickListener(new View.OnLongClickListener(){
-//                    @Override
-//                    public boolean onLongClick(View view){
-//                        // clear text
-//                        splitsView.setText("");
-//                        return true;
-//                    }
-//                });
-//            }
-//        });
     }
 
     // Determines whether UI should display button for the user to start the beeping
@@ -357,8 +306,6 @@ public class MainActivity extends WearableActivity {
     public void nextView(View view) {
         // Do something in response to button
         Intent intent = new Intent(this, DurationActivity.class);
-        // EditText editText = (EditText) findViewById(R.id.editText);
-        // String message = editText.getText().toString();
         float message = countdownTick;
         intent.putExtra(ALERT_FREQUENCY, message);
         startActivity(intent);
