@@ -44,6 +44,8 @@ public class DurationActivity extends WearableActivity {
         minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
         secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
         millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
+
+        // minutePickerInterval1.setVisibility(View.GONE);
     }
 
 //    @Override

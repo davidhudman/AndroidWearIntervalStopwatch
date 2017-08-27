@@ -33,7 +33,6 @@ public class MainActivity extends WearableActivity {
             new SimpleDateFormat("HH:mm", Locale.US);
 
     private BoxInsetLayout mContainerView;
-    private TextView mTextView;
     private TextView mClockView;
     private TextView textView3;
 
@@ -111,78 +110,17 @@ public class MainActivity extends WearableActivity {
         lapChrono = (Chronometer) findViewById(R.id.lapChrono);
         textView3 = (TextView) findViewById(R.id.textView3);
         startBeepAndChrono = (Button) findViewById(R.id.startBeepAndChrono);
+        splitsView = (TextView) findViewById(R.id.splitsView);
 
         chronometer.stop();
         lapChrono.stop();
 
-        // Get the Intent that started this activity and extract the string that will be the beep frequency
-        Bundle intent = getIntent().getExtras();
-        countdownTick = intent.getFloat(MainActivity.ALERT_FREQUENCY);
-        String receivedMessage = Float.toString( countdownTick );
-        textView3.setText(receivedMessage); // test purposes, delete when finished
+        receiveDataFromPreviousActivity();
 
-        float limit = 2;
-        if (countdownTick >= limit ) {
-            startBeepAndChrono.setVisibility(View.VISIBLE);
-        } else if (countdownTick < limit && countdownTick >= 0) {
-            startBeepAndChrono.setVisibility(View.VISIBLE);
-            startBeepAndChrono.setText("Time must be at least " + limit + " sec");
-        } else if (countdownTick < 0) {
-            startBeepAndChrono.setVisibility(View.GONE);
-        }
+        isStartBeepButtonAvailable();
 
+        setupBeepingComponents();
 
-
-        // final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-
-        // assign mp3 for music to be played on each tick of the countdown
-        bellSound = MediaPlayer.create(this, R.raw.bellsound1secexactly);
-
-        am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-
-        // Request audio focus for playback
-        afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-            public void onAudioFocusChange(int focusChange) {
-                if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-                    // screw that other app - they're not getting focus
-                }
-            }
-        };
-
-        // I think there's a risk that this could get fired if the tick time was close to the length of the alert sound. If the alert sound is much shorter, it shouldn't be a problem.
-        bellSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-        {
-            @Override
-            public void onCompletion(MediaPlayer mp)
-            {
-                am.abandonAudioFocus(afChangeListener);
-            }
-        });
-
-        mTextView = (TextView) findViewById(R.id.text);
-
-
-        splitsView = (TextView) findViewById(R.id.splitsView);
-
-//        minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
-//        secondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval1);
-//        millisecondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval1);
-//        minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
-//        secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
-//        millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
-
-        // create countdown timer for the sound alerts
-        beepTimer = new preciseCountdown((int) (countdownLen * 1000), (int) (countdownTick * 1000), 0) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                playTheSound();
-            }
-
-            @Override
-            public void onFinished() {
-                playTheSound();
-            }
-        };
 
 //        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 //            @Override
@@ -233,6 +171,68 @@ public class MainActivity extends WearableActivity {
 //                });
 //            }
 //        });
+    }
+
+    // Determines whether UI should display button for the user to start the beeping
+    void isStartBeepButtonAvailable() {
+        float limit = 2;
+        if (countdownTick >= limit ) {
+            startBeepAndChrono.setVisibility(View.VISIBLE);
+        } else if (countdownTick < limit && countdownTick >= 0) {
+            startBeepAndChrono.setVisibility(View.VISIBLE);
+            startBeepAndChrono.setText("Time must be at least " + limit + " sec");
+        } else if (countdownTick < 0) {
+            startBeepAndChrono.setVisibility(View.GONE);
+        }
+    }
+
+    // handles the data that is sent from the previous activity - this is currently the beep frequency
+    void receiveDataFromPreviousActivity() {
+        // Get the Intent that started this activity and extract the string that will be the beep frequency
+        Bundle intent = getIntent().getExtras();
+        countdownTick = intent.getFloat(MainActivity.ALERT_FREQUENCY);
+        String receivedMessage = Float.toString( countdownTick );
+        textView3.setText(receivedMessage); // test purposes, delete when finished
+    }
+
+    // Creates the mp3, AudioManager, and audio focus change listeners that we'll need to play sound
+    void setupBeepingComponents() {
+        // assign mp3 for music to be played on each tick of the countdown
+        bellSound = MediaPlayer.create(this, R.raw.bellsound1secexactly);
+
+        am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+
+        // Request audio focus for playback
+        afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            public void onAudioFocusChange(int focusChange) {
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                    // screw that other app - they're not getting focus
+                }
+            }
+        };
+
+        // I think there's a risk that this could get fired if the tick time was close to the length of the alert sound. If the alert sound is much shorter, it shouldn't be a problem.
+        bellSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+        {
+            @Override
+            public void onCompletion(MediaPlayer mp)
+            {
+                am.abandonAudioFocus(afChangeListener);
+            }
+        });
+
+        // create countdown timer for the sound alerts
+        beepTimer = new preciseCountdown((int) (countdownLen * 1000), (int) (countdownTick * 1000), 0) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                playTheSound();
+            }
+
+            @Override
+            public void onFinished() {
+                playTheSound();
+            }
+        };
     }
 
 //    @Override
