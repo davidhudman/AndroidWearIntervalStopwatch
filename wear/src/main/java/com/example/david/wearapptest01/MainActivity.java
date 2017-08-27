@@ -113,7 +113,8 @@ public class MainActivity extends WearableActivity {
 
         // Get the Intent that started this activity and extract the string that will be the beep frequency
         Bundle intent = getIntent().getExtras();
-        String receivedMessage = intent.getString(MainActivity.ALERT_FREQUENCY);
+        countdownTick = intent.getFloat(MainActivity.ALERT_FREQUENCY);
+        String receivedMessage = Float.toString( countdownTick );
         textView3.setText(receivedMessage); // test purposes, delete when finished
 
 
@@ -259,17 +260,9 @@ public class MainActivity extends WearableActivity {
     }
 
     public void startBeeper() {
-        try {
-            Float tempCountdownTick = Float.parseFloat(ALERT_FREQUENCY);
-            if (tempCountdownTick < 2) {        // if the user entered a beep frequency less than 2 seconds, don't let them
-                countdownTick = tempCountdownTick;
-            } else {                            // We should probably send the user an error message instead. if the user entered a beep frequency less than our specified limit, we won't start the beeping, but we will start the stopwatch.
-                return;
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return;
-        }
+        countdownTick = (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
+                + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
+                + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy);
 
         beepTimer.setInterval((long)(countdownTick * 1000));       // this makes sure the value is up-to-date with what the user entered
 
