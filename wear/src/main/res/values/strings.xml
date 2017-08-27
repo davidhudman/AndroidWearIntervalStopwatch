@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">WearAppTest01Home</string>
     <string name="hello_square">Stopwatch by Hudman</string>
+    <string name="title_activity_duration">DurationActivity</string>
+    <string name="hello_round">Hello Round World!</string>
+    <color name="white">#FFFFFF</color>
 </resources>

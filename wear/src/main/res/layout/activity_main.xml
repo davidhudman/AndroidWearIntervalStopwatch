@@ -57,6 +57,13 @@
                 android:text="Start Beep &amp; Chrono"
                 android:onClick="startBeepAndChrono" />
 
+            <Button
+                android:id="@+id/nextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next View"
+                android:onClick="nextView" />
+
             <TextView
                 android:id="@+id/splitsView"
                 android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.david.wearapptest01;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.activity.WearableActivity;
@@ -19,6 +20,8 @@ import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.david.DurationActivity;
 
 import java.text.DecimalFormat;
 
@@ -49,6 +52,7 @@ public class MainActivity extends WearableActivity {
     public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
             millisecondPickerInterval1, minutePickerInterval2,
             secondPickerInterval2, millisecondPickerInterval2;
+    public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -322,5 +326,18 @@ public class MainActivity extends WearableActivity {
         if (beepTimer.isWasStarted()) {
             beepTimer.stop();
         }
+    }
+
+    public void nextView(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, DurationActivity.class);
+        // EditText editText = (EditText) findViewById(R.id.editText);
+        // String message = editText.getText().toString();
+        float message = (
+                (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
+                        + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
+                        + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy));
+        intent.putExtra(ALERT_FREQUENCY, message);
+        startActivity(intent);
     }
 }
