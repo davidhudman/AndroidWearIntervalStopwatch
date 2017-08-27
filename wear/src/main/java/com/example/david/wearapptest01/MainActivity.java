@@ -47,12 +47,8 @@ public class MainActivity extends WearableActivity {
 
     public MediaPlayer bellSound;
     public AudioManager am;
-    // Request audio focus for playback
     public AudioManager.OnAudioFocusChangeListener afChangeListener;
 
-    public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
-            millisecondPickerInterval1, minutePickerInterval2,
-            secondPickerInterval2, millisecondPickerInterval2;
     public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
     public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
     public String TIMER_DATA_DATA;
@@ -141,7 +137,7 @@ public class MainActivity extends WearableActivity {
         Bundle intent = getIntent().getExtras();
         countdownTick = intent.getFloat(MainActivity.ALERT_FREQUENCY);
         String receivedMessage = Float.toString( countdownTick );
-        textView3.setText(receivedMessage); // test purposes, delete when finished
+        textView3.setText("Data sent was: " + receivedMessage); // test purposes, delete when finished
     }
 
     // Creates the mp3, AudioManager, and audio focus change listeners that we'll need to play sound
@@ -182,21 +178,6 @@ public class MainActivity extends WearableActivity {
                 playTheSound();
             }
         };
-    }
-
-    @Override
-    public void onEnterAmbient(Bundle ambientDetails) {
-        super.onEnterAmbient(ambientDetails);
-    }
-
-    @Override
-    public void onUpdateAmbient() {
-        super.onUpdateAmbient();
-    }
-
-    @Override
-    public void onExitAmbient() {
-        super.onExitAmbient();
     }
 
     protected void onDestroy() {
@@ -293,4 +274,19 @@ public class MainActivity extends WearableActivity {
         intent.putExtra(ALERT_FREQUENCY, message);
         startActivity(intent);
     }
+
+    //    @Override
+//    public void onEnterAmbient(Bundle ambientDetails) {
+//        super.onEnterAmbient(ambientDetails);
+//    }
+//
+//    @Override
+//    public void onUpdateAmbient() {
+//        super.onUpdateAmbient();
+//    }
+//
+//    @Override
+//    public void onExitAmbient() {
+//        super.onExitAmbient();
+//    }
 }

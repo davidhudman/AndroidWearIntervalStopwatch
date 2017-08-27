@@ -28,27 +28,61 @@
             tools:deviceIds="wear_square"
             android:gravity="center_horizontal">
 
-            <com.example.david.wearapptest01.Chronometer
-                android:id="@+id/chronometer"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="00:00.000"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                style="@android:style/Widget.Button"
-                android:textSize="36dp"
-                android:onClick="chronometerClick"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="com.example.david.wearapptest01.MainActivity"
+                tools:deviceIds="wear_square"
+                android:gravity="center_horizontal"
+                style="@android:style/Widget.Button" >
 
-            <com.example.david.wearapptest01.Chronometer
-                android:id="@+id/lapChrono"
+                <com.example.david.wearapptest01.Chronometer
+                    android:id="@+id/chronometer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00.000"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="36dp"
+                    android:onClick="chronometerClick" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cumulative Time"
+                    android:gravity="center_horizontal"
+                    android:textSize="6dp" />
+            </LinearLayout>
+
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="00:00.000"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                style="@android:style/Widget.Button"
-                android:textSize="36dp"
-                android:onClick="chronometerClick"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="com.example.david.wearapptest01.MainActivity"
+                tools:deviceIds="wear_square"
+                android:gravity="center_horizontal"
+                style="@android:style/Widget.Button" >
+                <com.example.david.wearapptest01.Chronometer
+                    android:id="@+id/lapChrono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00.000"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="36dp"
+                    android:onClick="chronometerClick"
+                    />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lap Time"
+                    android:gravity="center_horizontal"
+                    android:textSize="6dp" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/startBeepAndChrono"
@@ -57,90 +91,12 @@
                 android:text="Start Beep &amp; Chrono"
                 android:onClick="startBeepAndChrono" />
 
-            <!--<Button-->
-                <!--android:id="@+id/nextView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Next View"-->
-                <!--android:onClick="nextView" />-->
-
             <TextView
                 android:id="@+id/splitsView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Results" />
 
-            <!--<LinearLayout-->
-                <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--xmlns:tools="http://schemas.android.com/tools"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:gravity="right"-->
-                <!--tools:context=".MainActivity">-->
-
-                <!--&lt;!&ndash; Interval Picker &ndash;&gt;-->
-                <!--<com.example.david.wearapptest01.NumberPickerCustom-->
-                    <!--android:layout_width="@dimen/numberPickerWidth"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:descendantFocusability="blocksDescendants"-->
-                    <!--android:id="@+id/minutePickerInterval1"-->
-                    <!--max="9"-->
-                    <!--min="0" />-->
-                <!--<com.example.david.wearapptest01.NumberPickerCustom-->
-                    <!--android:layout_width="@dimen/numberPickerWidth"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:descendantFocusability="blocksDescendants"-->
-                    <!--android:id="@+id/minutePickerInterval2"-->
-                    <!--max="9"-->
-                    <!--min="0" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="5dp"-->
-                    <!--android:layout_height="60dp"-->
-                    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                    <!--android:text="\n\n\n:" />-->
-
-                <!--<com.example.david.wearapptest01.NumberPickerCustom-->
-                    <!--android:layout_width="@dimen/numberPickerWidth"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:descendantFocusability="blocksDescendants"-->
-                    <!--android:id="@+id/secondPickerInterval1"-->
-                    <!--value="0"-->
-                    <!--max="5"-->
-                    <!--min="0" />-->
-                <!--<com.example.david.wearapptest01.NumberPickerCustom-->
-                    <!--android:layout_width="@dimen/numberPickerWidth"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:descendantFocusability="blocksDescendants"-->
-                    <!--android:id="@+id/secondPickerInterval2"-->
-                    <!--value="2"-->
-                    <!--max="9"-->
-                    <!--min="0" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="5dp"-->
-                    <!--android:layout_height="60dp"-->
-                    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                    <!--android:text="\n\n\n." />-->
-
-                <!--<com.example.david.wearapptest01.NumberPickerCustom-->
-                    <!--android:layout_width="@dimen/numberPickerWidth"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:descendantFocusability="blocksDescendants"-->
-                    <!--android:id="@+id/millisecondPickerInterval1"-->
-                    <!--max="9"-->
-                    <!--min="0" />-->
-
-                <!--<com.example.david.wearapptest01.NumberPickerCustom-->
-                    <!--android:layout_width="@dimen/numberPickerWidth"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:descendantFocusability="blocksDescendants"-->
-                    <!--android:id="@+id/millisecondPickerInterval2"-->
-                    <!--max="9"-->
-                    <!--min="0" />-->
-
-            <!--</LinearLayout>-->
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
