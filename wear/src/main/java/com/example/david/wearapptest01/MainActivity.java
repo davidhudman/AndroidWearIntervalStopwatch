@@ -21,8 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.david.DurationActivity;
-
 import java.text.DecimalFormat;
 
 import static com.example.david.wearapptest01.R.id.chronometer;
