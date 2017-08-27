@@ -77,7 +77,7 @@ public class DurationActivity extends WearableActivity {
 //        }
 //    }
 
-    public void nextView(View view) {
+    public void nextViewBeep(View view) {
         // Do something in response to button
         Intent intent = new Intent(this, MainActivity.class);
         // EditText editText = (EditText) findViewById(R.id.editText);
@@ -86,6 +86,15 @@ public class DurationActivity extends WearableActivity {
                 (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
                         + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
                         + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy));
+        intent.putExtra(ALERT_FREQUENCY, message);
+        startActivity(intent);
+    }
+
+    public void nextViewNoBeep(View view) {
+        // Do something in response to button
+        Intent intent = new Intent(this, MainActivity.class);
+
+        float message = -1;         // anything less than 0 lets the next activity know that we don't need beeping
         intent.putExtra(ALERT_FREQUENCY, message);
         startActivity(intent);
     }

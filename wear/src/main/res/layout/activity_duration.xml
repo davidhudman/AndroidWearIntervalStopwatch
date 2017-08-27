@@ -29,16 +29,21 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:gravity="right"
             tools:context=".DurationActivity">
 
             <Button
-                android:id="@+id/nextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Next View2"
-                android:onClick="nextView" />
+                android:text="No Beep"
+                android:onClick="nextViewNoBeep" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Beep @ Time Below"
+                android:onClick="nextViewBeep" />
 
         </LinearLayout>
 
@@ -48,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="right"
+            android:gravity="center"
             tools:context=".DurationActivity">
 
             <!-- Interval Picker -->
@@ -57,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/minutePickerInterval1"
+                android:textSize="13dp"
                 max="9"
                 min="0" />
             <com.example.david.wearapptest01.NumberPickerCustom
@@ -64,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/minutePickerInterval2"
+                android:textSize="13dp"
                 max="9"
                 min="0" />
 
@@ -71,6 +78,7 @@
                 android:layout_width="5dp"
                 android:layout_height="60dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="13dp"
                 android:text="\n\n\n:" />
 
             <com.example.david.wearapptest01.NumberPickerCustom
@@ -78,6 +86,8 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/secondPickerInterval1"
+                android:textSize="13dp"
+
                 value="0"
                 max="5"
                 min="0" />
@@ -86,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/secondPickerInterval2"
+                android:theme="@dimen/NumberPickerText"
                 value="2"
                 max="9"
                 min="0" />
@@ -93,6 +104,7 @@
             <TextView
                 android:layout_width="5dp"
                 android:layout_height="60dp"
+                android:theme="@dimen/NumberPickerText"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="\n\n\n." />
 
@@ -101,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/millisecondPickerInterval1"
+                android:theme="@dimen/NumberPickerText"
                 max="9"
                 min="0" />
 
@@ -109,6 +122,7 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/millisecondPickerInterval2"
+                android:theme="@dimen/NumberPickerText"
                 max="9"
                 min="0" />
 

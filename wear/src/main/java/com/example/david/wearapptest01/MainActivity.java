@@ -45,16 +45,19 @@ public class MainActivity extends WearableActivity {
     private float countdownLen = 86400;
     private float countdownTick = (float) 18.75;
     private float levelOfAccuracy = (float) .01;
+
     public MediaPlayer bellSound;
     public AudioManager am;
     // Request audio focus for playback
     public AudioManager.OnAudioFocusChangeListener afChangeListener;
+
     public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
             millisecondPickerInterval1, minutePickerInterval2,
             secondPickerInterval2, millisecondPickerInterval2;
     public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
     public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
     public String TIMER_DATA_DATA;
+    public Button startBeepAndChrono;
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -107,6 +110,7 @@ public class MainActivity extends WearableActivity {
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         lapChrono = (Chronometer) findViewById(R.id.lapChrono);
         textView3 = (TextView) findViewById(R.id.textView3);
+        startBeepAndChrono = (Button) findViewById(R.id.startBeepAndChrono);
 
         chronometer.stop();
         lapChrono.stop();
@@ -116,6 +120,16 @@ public class MainActivity extends WearableActivity {
         countdownTick = intent.getFloat(MainActivity.ALERT_FREQUENCY);
         String receivedMessage = Float.toString( countdownTick );
         textView3.setText(receivedMessage); // test purposes, delete when finished
+
+        float limit = 2;
+        if (countdownTick >= limit ) {
+            startBeepAndChrono.setVisibility(View.VISIBLE);
+        } else if (countdownTick < limit && countdownTick >= 0) {
+            startBeepAndChrono.setVisibility(View.VISIBLE);
+            startBeepAndChrono.setText("Time must be at least " + limit + " sec");
+        } else if (countdownTick < 0) {
+            startBeepAndChrono.setVisibility(View.GONE);
+        }
 
 
 
@@ -150,12 +164,12 @@ public class MainActivity extends WearableActivity {
 
         splitsView = (TextView) findViewById(R.id.splitsView);
 
-        minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
-        secondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval1);
-        millisecondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval1);
-        minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
-        secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
-        millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
+//        minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
+//        secondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval1);
+//        millisecondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval1);
+//        minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
+//        secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
+//        millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
 
         // create countdown timer for the sound alerts
         beepTimer = new preciseCountdown((int) (countdownLen * 1000), (int) (countdownTick * 1000), 0) {
@@ -260,13 +274,16 @@ public class MainActivity extends WearableActivity {
     }
 
     public void startBeeper() {
-        countdownTick = (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
-                + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
-                + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy);
+        if (countdownTick >= 2) {        // if the user entered a beep frequency 2 sec or greater, that's good. if not, we stop them.
+            // we're good to go, continue
+            beepTimer.setInterval((long)(countdownTick * 1000));       // this makes sure the value is up-to-date with what the user entered
 
-        beepTimer.setInterval((long)(countdownTick * 1000));       // this makes sure the value is up-to-date with what the user entered
-
-        beepTimer.start();
+            beepTimer.start();
+        } else if (countdownTick >= 0 && countdownTick < 2) {                            // We should probably send the user an error message instead. if the user entered a beep frequency less than our specified limit, we won't start the beeping, but we will start the stopwatch.
+            return;
+        } else if (countdownTick < 0) {     // the user asked for no beeping, so don't alert them, just don't beep
+            return;
+        }
     }
 
     public void playTheSound() {
@@ -342,10 +359,7 @@ public class MainActivity extends WearableActivity {
         Intent intent = new Intent(this, DurationActivity.class);
         // EditText editText = (EditText) findViewById(R.id.editText);
         // String message = editText.getText().toString();
-        float message = (
-                (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
-                        + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
-                        + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy));
+        float message = countdownTick;
         intent.putExtra(ALERT_FREQUENCY, message);
         startActivity(intent);
     }
