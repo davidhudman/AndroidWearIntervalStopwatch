@@ -21,9 +21,26 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="right"
         tools:context=".DurationActivity">
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right"
+            tools:context=".DurationActivity">
+
+            <Button
+                android:id="@+id/nextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next View2"
+                android:onClick="nextView" />
+
+        </LinearLayout>
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -96,13 +113,22 @@
                 min="0" />
 
         </LinearLayout>
-        <!--<TextView-->
-        <!--android:id="@+id/clock"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|start"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--app:layout_box="all" />-->
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right"
+            tools:context=".DurationActivity">
+            <TextView
+            android:id="@+id/clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:textColor="@android:color/white"
+            app:layout_box="all" />
+        </LinearLayout>
     </LinearLayout>
     </ScrollView>
 </android.support.wearable.view.BoxInsetLayout>

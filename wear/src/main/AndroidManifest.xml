@@ -15,36 +15,28 @@
         <uses-library
             android:name="com.google.android.wearable"
             android:required="false" />
-
+        <!--android:label="@string/title_activity_duration"-->
         <activity
-            android:name=".MainActivity"
+            android:name=".DurationActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.david.DurationActivity"
-            android:label="@string/title_activity_duration">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".DurationActivity"
-            android:label="@string/title_activity_duration"
+            android:name=".MainActivity"
+            android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
+
     </application>
 
 </manifest>

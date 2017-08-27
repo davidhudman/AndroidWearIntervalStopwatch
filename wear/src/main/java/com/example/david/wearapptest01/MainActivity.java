@@ -25,6 +25,7 @@ import java.text.DecimalFormat;
 
 import static com.example.david.wearapptest01.R.id.chronometer;
 import static com.example.david.wearapptest01.R.id.lapChrono;
+import static com.example.david.wearapptest01.R.id.textView3;
 
 public class MainActivity extends WearableActivity {
 
@@ -34,6 +35,7 @@ public class MainActivity extends WearableActivity {
     private BoxInsetLayout mContainerView;
     private TextView mTextView;
     private TextView mClockView;
+    private TextView textView3;
 
     public int lap = 0;
     DecimalFormat threeDigits = new DecimalFormat("000");
@@ -51,6 +53,8 @@ public class MainActivity extends WearableActivity {
             millisecondPickerInterval1, minutePickerInterval2,
             secondPickerInterval2, millisecondPickerInterval2;
     public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
+    public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
+    public String TIMER_DATA_DATA;
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -102,9 +106,15 @@ public class MainActivity extends WearableActivity {
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         lapChrono = (Chronometer) findViewById(R.id.lapChrono);
+        textView3 = (TextView) findViewById(R.id.textView3);
 
         chronometer.stop();
         lapChrono.stop();
+
+        // Get the Intent that started this activity and extract the string that will be the beep frequency
+        Bundle intent = getIntent().getExtras();
+        String receivedMessage = intent.getString(MainActivity.ALERT_FREQUENCY);
+        textView3.setText(receivedMessage); // test purposes, delete when finished
 
 
 
@@ -249,9 +259,17 @@ public class MainActivity extends WearableActivity {
     }
 
     public void startBeeper() {
-        countdownTick = (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
-                + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
-                + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy);
+        try {
+            Float tempCountdownTick = Float.parseFloat(ALERT_FREQUENCY);
+            if (tempCountdownTick < 2) {        // if the user entered a beep frequency less than 2 seconds, don't let them
+                countdownTick = tempCountdownTick;
+            } else {                            // We should probably send the user an error message instead. if the user entered a beep frequency less than our specified limit, we won't start the beeping, but we will start the stopwatch.
+                return;
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return;
+        }
 
         beepTimer.setInterval((long)(countdownTick * 1000));       // this makes sure the value is up-to-date with what the user entered
 
