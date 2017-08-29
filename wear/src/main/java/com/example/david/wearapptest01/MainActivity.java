@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -53,6 +54,11 @@ public class MainActivity extends WearableActivity {
     public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
     public String TIMER_DATA_DATA;
     public Button startBeepAndChrono;
+
+    public LinearLayout beepTimeSelect;
+    public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
+            millisecondPickerInterval1, minutePickerInterval2,
+            secondPickerInterval2, millisecondPickerInterval2;
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -107,6 +113,17 @@ public class MainActivity extends WearableActivity {
         textView3 = (TextView) findViewById(R.id.textView3);
         startBeepAndChrono = (Button) findViewById(R.id.startBeepAndChrono);
         splitsView = (TextView) findViewById(R.id.splitsView);
+        beepTimeSelect = (LinearLayout) findViewById(R.id.beepTimeSelect);
+
+        // variables related to picking the numbers
+        minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
+        secondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval1);
+        millisecondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval1);
+        minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
+        secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
+        millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
+        beepTimeSelect.setVisibility(View.GONE);
+
 
         chronometer.stop();
         lapChrono.stop();
@@ -254,7 +271,7 @@ public class MainActivity extends WearableActivity {
 
     }
 
-    public void stopChrono(View view) {
+    public void pauseChrono(View view) {
         if (chronometer.isRunning()) {
             chronometer.stop();
             lapChrono.stop(chronometer.getPauseTime());
@@ -265,6 +282,22 @@ public class MainActivity extends WearableActivity {
         if (beepTimer.isWasStarted()) {
             beepTimer.stop();
         }
+    }
+
+    public void showChangeBeeper(View view) {
+        beepTimeSelect.setVisibility(View.VISIBLE);
+    }
+
+    public void changeBeeper(View view) {
+        float interval = (
+                (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
+                        + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
+                        + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy));
+        long newInterval = (long) (interval * 1000);       // this will need to be changed to something the user defines
+        beepTimer.stop();
+        beepTimer.setInterval(newInterval);
+        beepTimer.restart();
+        beepTimeSelect.setVisibility(View.GONE);
     }
 
     public void nextView(View view) {

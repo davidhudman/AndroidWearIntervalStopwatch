@@ -103,19 +103,129 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hello_square" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chrono" />
+
             <Button
-                android:id="@+id/stopChrono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stop Chrono"
-                android:onClick="stopChrono" />
+                android:text="Pause"
+                android:onClick="pauseChrono" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beeping" />
 
             <Button
                 android:id="@+id/stopBeeper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stop Beep"
+                android:text="Stop"
                 android:onClick="stopBeeper" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change"
+                android:onClick="showChangeBeeper" />
+
+            <LinearLayout
+                android:id="@+id/beepTimeSelect"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                tools:context=".MainActivity">
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                tools:context=".MainActivity">
+
+                <!-- Interval Picker -->
+                <com.example.david.wearapptest01.NumberPickerCustom
+                    android:layout_width="@dimen/numberPickerWidth"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/minutePickerInterval1"
+                    max="9"
+                    min="0" />
+                <com.example.david.wearapptest01.NumberPickerCustom
+                    android:layout_width="@dimen/numberPickerWidth"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/minutePickerInterval2"
+                    max="9"
+                    min="0" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="60dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text=":" />
+
+                <com.example.david.wearapptest01.NumberPickerCustom
+                    android:layout_width="@dimen/numberPickerWidth"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/secondPickerInterval1"
+
+                    value="0"
+                    max="5"
+                    min="0" />
+                <com.example.david.wearapptest01.NumberPickerCustom
+                    android:layout_width="@dimen/numberPickerWidth"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/secondPickerInterval2"
+                    android:theme="@dimen/NumberPickerText"
+                    value="2"
+                    max="9"
+                    min="0" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="60dp"
+                    android:theme="@dimen/NumberPickerText"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="." />
+
+                <com.example.david.wearapptest01.NumberPickerCustom
+                    android:layout_width="@dimen/numberPickerWidth"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/millisecondPickerInterval1"
+                    android:theme="@dimen/NumberPickerText"
+                    max="9"
+                    min="0" />
+
+                <com.example.david.wearapptest01.NumberPickerCustom
+                    android:layout_width="@dimen/numberPickerWidth"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:id="@+id/millisecondPickerInterval2"
+                    android:theme="@dimen/NumberPickerText"
+                    max="9"
+                    min="0" />
+
+            </LinearLayout>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="OK"
+                    android:onClick="changeBeeper" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
