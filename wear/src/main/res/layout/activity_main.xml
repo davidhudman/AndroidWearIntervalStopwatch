@@ -108,28 +108,72 @@
                 android:layout_height="wrap_content"
                 android:text="Chrono" />
 
-            <Button
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pause"
-                android:onClick="pauseChrono" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                tools:context="com.example.dhudman.wearapptest01.MainActivity"
+                tools:deviceIds="wear_square"
+                android:gravity="center_horizontal">
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_media_pause"
+                    android:onClick="pauseChrono" />
+
+                <!--<ImageButton-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@android:drawable/ic_media_play" />-->
+
+                <!--<ImageButton-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@android:drawable/ic_menu_edit" />-->
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Beeping" />
 
-            <Button
-                android:id="@+id/stopBeeper"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Stop"
-                android:onClick="stopBeeper" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Change"
-                android:onClick="showChangeBeeper" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                tools:context="com.example.dhudman.wearapptest01.MainActivity"
+                tools:deviceIds="wear_square"
+                android:gravity="center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_media_pause"
+                    android:onClick="stopBeeper" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:onClick="showChangeBeeper" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/beepTimeSelect"
