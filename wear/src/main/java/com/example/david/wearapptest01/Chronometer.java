@@ -98,6 +98,21 @@ public class Chronometer extends TextView {
         updateRunning();
     }
 
+    public String getSplit(int lap) {
+        if (lap == 0) {
+            updateRunning();
+
+            long tempTimeElapsed = SystemClock.elapsedRealtime();
+
+            lastSplit = tempTimeElapsed;
+
+            return getText(tempTimeElapsed) + "-" + getText(tempTimeElapsed);
+        }
+        else {
+            return getSplit();
+        }
+    }
+
     public String getSplit() {
         updateRunning();
 
@@ -201,7 +216,7 @@ public class Chronometer extends TextView {
         text += twoDigits.format(minutes) + ":";
         text += twoDigits.format(seconds) + ".";
         // text += Integer.toString(milliseconds);
-        text += threeDigits.format(milliseconds);
+        text += twoDigits.format(milliseconds / 10);
 
         return text;
     }
@@ -232,7 +247,7 @@ public class Chronometer extends TextView {
         text += twoDigits.format(minutes) + ":";
         text += twoDigits.format(seconds) + ".";
         // text += Integer.toString(milliseconds);
-        text += threeDigits.format(milliseconds);
+        text += twoDigits.format(milliseconds / 10);
 
         return text;
     }

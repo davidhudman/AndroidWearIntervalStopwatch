@@ -44,7 +44,11 @@
                     android:layout_height="wrap_content"
                     android:text="00:00.000"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="36dp"
+                    android:maxLines="1"
+                    android:textSize="40dp"
+                    android:layout_marginBottom="-10dp"
+                    android:layout_marginTop="-8dp"
+                    android:gravity="center_horizontal"
                     android:onClick="chronometerClick" />
                 <TextView
                     android:id="@+id/textView"
@@ -72,7 +76,11 @@
                     android:layout_height="wrap_content"
                     android:text="00:00.000"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="36dp"
+                    android:maxLines="1"
+                    android:textSize="40dp"
+                    android:layout_marginBottom="-10dp"
+                    android:layout_marginTop="-8dp"
+                    android:gravity="center_horizontal"
                     android:onClick="chronometerClick"
                     />
                 <TextView
@@ -89,19 +97,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Beep &amp; Chrono"
+                android:layout_marginBottom="-8dp"
+                android:layout_marginTop="-6dp"
                 android:onClick="startBeepAndChrono" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Splits:" />
 
             <TextView
                 android:id="@+id/splitsView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Results" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hello_square" />
+                android:text="" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -173,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_edit"
                     android:onClick="showChangeBeeper" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -270,6 +280,13 @@
                     android:text="OK"
                     android:onClick="changeBeeper" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/hello_square" />
 
         </LinearLayout>
     </ScrollView>

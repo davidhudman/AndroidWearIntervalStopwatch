@@ -128,7 +128,7 @@ public class MainActivity extends WearableActivity {
         chronometer.stop();
         lapChrono.stop();
 
-        receiveDataFromPreviousActivity();
+        // receiveDataFromPreviousActivity();
 
         isStartBeepButtonAvailable();
 
@@ -195,6 +195,9 @@ public class MainActivity extends WearableActivity {
                 playTheSound();
             }
         };
+
+        beepTimer.start();
+        beepTimer.stop();
     }
 
     protected void onDestroy() {
@@ -245,14 +248,15 @@ public class MainActivity extends WearableActivity {
     public void chronometerClick(View view) {
         if (chronometer.isRunning()) {
             if (lap == 0) {
-                splitsView.setText("Lap" + threeDigits.format(lap++) + " - "
-                        + chronometer.getSplit()
+                splitsView.setText("Lap" + threeDigits.format(lap) + " - "
+                        + chronometer.getSplit(lap)
                         + "\n" + splitsView.getText().toString());  // add everything that was already there, too
             } else {
-                splitsView.setText("Lap" + threeDigits.format(lap++) + " - "
-                        + chronometer.getSplit()
+                splitsView.setText("Lap" + threeDigits.format(lap) + " - "
+                        + chronometer.getSplit(lap)
                         + "\n" + splitsView.getText().toString());  // add everything that was already there, too
             }
+            lap++;
             lapChrono.restart();
             lapChrono.setBase(chronometer.getLastSplit());
         }
