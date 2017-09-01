@@ -196,8 +196,6 @@ public class MainActivity extends WearableActivity {
             }
         };
 
-        beepTimer.start();
-        beepTimer.stop();
         beepTimer.setWasCancelled(false);
         beepTimer.setWasStarted(false);
     }
@@ -314,8 +312,9 @@ public class MainActivity extends WearableActivity {
                 (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
                         + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
                         + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy));
+        countdownTick = interval;
         long newInterval = (long) (interval * 1000);       // this will need to be changed to something the user defines
-        beepTimer.stop();
+        // beepTimer.stop();
         beepTimer.setInterval(newInterval);
         beepTimeSelect.setVisibility(View.GONE);
     }
