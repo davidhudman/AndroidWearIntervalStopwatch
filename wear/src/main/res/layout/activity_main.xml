@@ -100,6 +100,42 @@
                 android:layout_marginBottom="-8dp"
                 android:layout_marginTop="-6dp"
                 android:onClick="startBeepAndChrono" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Music" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                tools:context="com.example.dhudman.wearapptest01.MainActivity"
+                tools:deviceIds="wear_square"
+                android:gravity="center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/arrow_down_float"
+                    android:onClick="lowerMusicVolume" />
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/arrow_up_float"
+                    android:onClick="raiseMusicVolume" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -173,7 +209,8 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_media_play" />
+                    android:src="@android:drawable/ic_media_play"
+                    android:onClick="restartBeeper" />
 
                 <ImageButton
                     android:id="@+id/imageButton"

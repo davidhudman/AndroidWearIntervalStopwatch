@@ -198,6 +198,8 @@ public class MainActivity extends WearableActivity {
 
         beepTimer.start();
         beepTimer.stop();
+        beepTimer.setWasCancelled(false);
+        beepTimer.setWasStarted(false);
     }
 
     protected void onDestroy() {
@@ -297,6 +299,16 @@ public class MainActivity extends WearableActivity {
         }
     }
 
+    public void raiseMusicVolume(View view) {
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)+1, 0);
+    }
+
+    public void lowerMusicVolume(View view) {
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)-1, 0);
+    }
+
     public void changeBeeper(View view) {
         float interval = (
                 (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
@@ -305,8 +317,14 @@ public class MainActivity extends WearableActivity {
         long newInterval = (long) (interval * 1000);       // this will need to be changed to something the user defines
         beepTimer.stop();
         beepTimer.setInterval(newInterval);
-        beepTimer.restart();
         beepTimeSelect.setVisibility(View.GONE);
+    }
+
+    public void restartBeeper(View view) {
+        beepTimer.restart();
+        chronometer.start();
+        lapChrono.start();
+
     }
 
     public void nextView(View view) {

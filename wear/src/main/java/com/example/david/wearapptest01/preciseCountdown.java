@@ -30,6 +30,14 @@ public class preciseCountdown extends Timer {
         return wasStarted;
     }
 
+    public void setWasCancelled(boolean was_Cancelled) {
+        wasCancelled = was_Cancelled;
+    }
+
+    public void setWasStarted(boolean was_Started) {
+        wasStarted = was_Started;
+    }
+
     public boolean isWasCancelled() {
         return wasCancelled;
     }
