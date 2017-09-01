@@ -288,8 +288,13 @@ public class MainActivity extends WearableActivity {
         }
     }
 
-    public void showChangeBeeper(View view) {
-        beepTimeSelect.setVisibility(View.VISIBLE);
+    public void showOrHideChangeBeeper(View view) {
+        if (beepTimeSelect.getVisibility() == View.VISIBLE) {
+            beepTimeSelect.setVisibility(View.GONE);
+        }
+        else {
+            beepTimeSelect.setVisibility(View.VISIBLE);
+        }
     }
 
     public void changeBeeper(View view) {
