@@ -196,6 +196,7 @@ public class MainActivity extends WearableActivity {
             }
         };
 
+        // These two values represent the original state of the beep timer
         beepTimer.setWasCancelled(false);
         beepTimer.setWasStarted(false);
     }
