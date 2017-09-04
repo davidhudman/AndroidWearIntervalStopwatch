@@ -96,10 +96,16 @@
                 android:id="@+id/startBeepAndChrono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start Beep &amp; Chrono"
+                android:text="Start VibBeep &amp; Chrono"
                 android:layout_marginBottom="-8dp"
                 android:layout_marginTop="-6dp"
-                android:onClick="startBeepAndChrono" />
+                android:onClick="startBeepAndChrono"
+                android:longClickable="true" />
+            <TextView
+                android:id="@+id/devTestField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dev Test" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -3,8 +3,10 @@ package com.example.david.wearapptest01;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 
@@ -49,6 +53,12 @@ public class MainActivity extends WearableActivity {
     public MediaPlayer bellSound;
     public AudioManager am;
     public AudioManager.OnAudioFocusChangeListener afChangeListener;
+    Vibrator vibrator;
+    long[] vibrationPattern = {0, 500, 250, 500, 250, 500};
+    //-1 - don't repeat
+    final int indexInPatternToRepeat = -1;
+    public boolean isVibrateEnabled = true;
+    public boolean isBeepEnabled = true;
 
     public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
     public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
@@ -59,6 +69,43 @@ public class MainActivity extends WearableActivity {
     public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
             millisecondPickerInterval1, minutePickerInterval2,
             secondPickerInterval2, millisecondPickerInterval2;
+
+    // Dev Testing variables
+    public boolean isDeveloperTestingEnabled = true;
+    public TextView devTestFieldText;
+    public int gestureCounter = 0;
+
+    @Override /* KeyEvent.Callback */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_NAVIGATE_NEXT:
+                // Do something that advances a user View to the next item in an ordered list.
+                return moveToNextItem();
+            case KeyEvent.KEYCODE_NAVIGATE_PREVIOUS:
+                // Do something that advances a user View to the previous item in an ordered list.
+                return moveToPreviousItem();
+            default:
+                devTestFieldText.setText("Other Gesture " + gestureCounter++);
+                // If you did not handle it, let it be handled by the next possible element as deemed by the Activity.
+                return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    /** Shows the next item in the custom list. */
+    private boolean moveToNextItem() {
+        boolean handled = false;
+        devTestFieldText.setText("NextItem Gesture " + gestureCounter++);
+        // Return true if handled successfully, otherwise return false.
+        return handled;
+    }
+
+    /** Shows the previous item in the custom list. */
+    private boolean moveToPreviousItem() {
+        boolean handled = false;
+        devTestFieldText.setText("PrevItem Gesture " + gestureCounter++);
+        // Return true if handled successfully, otherwise return false.
+        return handled;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -122,6 +169,11 @@ public class MainActivity extends WearableActivity {
         minutePickerInterval2 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval2);
         secondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval2);
         millisecondPickerInterval2 = (NumberPickerCustom) findViewById(R.id.millisecondPickerInterval2);
+
+        // Developer Testing Variables
+        devTestFieldText = (TextView) findViewById(R.id.devTestField);
+
+
         beepTimeSelect.setVisibility(View.GONE);
 
 
@@ -133,6 +185,41 @@ public class MainActivity extends WearableActivity {
         isStartBeepButtonAvailable();
 
         setupBeepingComponents();
+
+        startBeepAndChrono.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // switch vibrate mode
+                if (isVibrateEnabled)  {    // then we need to disable vibrate
+                    startBeepAndChrono.setText("Start Beep & Chrono");
+                }
+                else {                      // then we need to enable Vibrate
+                    startBeepAndChrono.setText("Start VibBeep & Chrono");
+
+                }
+                isVibrateEnabled = !isVibrateEnabled;
+                return true;
+            }
+        });
+
+        textView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleDeveloperComponents();
+            }
+        });
+    }
+
+    void toggleDeveloperComponents() {
+        if (isDeveloperTestingEnabled) {    // then we need to disable developer mode
+            devTestFieldText.setVisibility(View.GONE);
+        }
+        else {                              // then we need to enable developer mode
+            devTestFieldText.setVisibility(View.VISIBLE);
+        }
+
+        isDeveloperTestingEnabled = !isDeveloperTestingEnabled;
+
     }
 
     // Determines whether UI should display button for the user to start the beeping
@@ -199,6 +286,8 @@ public class MainActivity extends WearableActivity {
         // These two values represent the original state of the beep timer
         beepTimer.setWasCancelled(false);
         beepTimer.setWasStarted(false);
+
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
     protected void onDestroy() {
@@ -221,19 +310,25 @@ public class MainActivity extends WearableActivity {
     }
 
     public void playTheSound() {
-        int result = am.requestAudioFocus(afChangeListener,
-                // Use the music stream.
-                AudioManager.STREAM_MUSIC,
-                // Request permanent focus.
-                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+        if (isBeepEnabled) {
+            int result = am.requestAudioFocus(afChangeListener,
+                    // Use the music stream.
+                    AudioManager.STREAM_MUSIC,
+                    // Request permanent focus.
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
 
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            // Start playback
-            if (bellSound.isPlaying()) {
-                bellSound.seekTo(0);
-            } else {
-                bellSound.start();
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                // Start playback
+                if (bellSound.isPlaying()) {
+                    bellSound.seekTo(0);
+                } else {
+                    bellSound.start();
+                }
             }
+        }
+
+        if (isVibrateEnabled) {
+            vibrator.vibrate(vibrationPattern, indexInPatternToRepeat);
         }
     }
 
