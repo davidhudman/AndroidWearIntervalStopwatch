@@ -180,15 +180,7 @@ public class MainActivity extends WearableActivity {
         startBeepAndChrono.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // switch vibrate mode
-                if (isVibrateEnabled)  {    // then we need to disable vibrate
-                    startBeepAndChrono.setText("Start Beep & Chrono");
-                }
-                else {                      // then we need to enable Vibrate
-                    startBeepAndChrono.setText("Start VibBeep & Chrono");
-
-                }
-                isVibrateEnabled = !isVibrateEnabled;
+                // do something
                 return true;
             }
         });
@@ -199,6 +191,36 @@ public class MainActivity extends WearableActivity {
                 toggleDeveloperComponents();
             }
         });
+    }
+
+    public void switchToNextAlertMode(View view) {
+        Context context = getApplicationContext();
+        CharSequence toastText = "ERROR: Text not set.";
+        int duration = Toast.LENGTH_SHORT;
+
+        if (isVibrateEnabled && isBeepEnabled)  {           // then we need to disable vibrate but leave beeping
+            isVibrateEnabled = false;
+            isBeepEnabled = true;
+            toastText = "Vibration off.\nBeeping on.";
+
+        } else if (!isVibrateEnabled && isBeepEnabled) {    // then we need to disable beep but enable vibrate
+            isVibrateEnabled = true;
+            isBeepEnabled = false;
+            toastText = "Vibration on.\nBeeping off.";
+
+        } else if (isVibrateEnabled && !isBeepEnabled) {    // then we need to disable both
+            isVibrateEnabled = false;
+            isBeepEnabled = false;
+            toastText = "Vibration off.\nBeeping off.";
+
+        } else if (!isVibrateEnabled && !isBeepEnabled) {   // then we need to enable both
+            isVibrateEnabled = true;
+            isBeepEnabled = true;
+            toastText = "Vibration on.\nBeeping on.";
+
+        }
+
+        Toast.makeText(context, toastText, duration).show();
     }
 
     void toggleDeveloperComponents() {

@@ -191,7 +191,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Beeping" />
+                android:text="Alerts" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -225,6 +225,14 @@
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_menu_edit"
                     android:onClick="showOrHideChangeBeeper" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_menu_manage"
+                    android:onClick="switchToNextAlertMode" />
 
             </LinearLayout>
 
