@@ -12,25 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
-import android.app.Activity;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.support.wearable.view.WatchViewStub;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
-
-import static com.example.david.wearapptest01.R.id.chronometer;
-import static com.example.david.wearapptest01.R.id.lapChrono;
-import static com.example.david.wearapptest01.R.id.textView3;
 
 public class MainActivity extends WearableActivity {
 
@@ -45,7 +35,7 @@ public class MainActivity extends WearableActivity {
     DecimalFormat threeDigits = new DecimalFormat("000");
     public TextView splitsView;
     public Chronometer chronometer, lapChrono;
-    public preciseCountdown beepTimer;
+    public preciseCountdown alertTimer;
     private float countdownLen = 86400;
     private float countdownTick = (float) 12;
     private float levelOfAccuracy = (float) .01;
@@ -59,6 +49,7 @@ public class MainActivity extends WearableActivity {
     final int indexInPatternToRepeat = -1;
     public boolean isVibrateEnabled = true;
     public boolean isBeepEnabled = true;
+    public int alertFrequencyLowerLimit = 3; // the user needs to enter an alert frequency of at least this many seconds
 
     public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
     public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
@@ -71,7 +62,7 @@ public class MainActivity extends WearableActivity {
             secondPickerInterval2, millisecondPickerInterval2;
 
     // Dev Testing variables
-    public boolean isDeveloperTestingEnabled = true;
+    public boolean isDeveloperTestingEnabled = false;
     public TextView devTestFieldText;
     public int gestureCounter = 0;
 
@@ -224,10 +215,9 @@ public class MainActivity extends WearableActivity {
 
     // Determines whether UI should display button for the user to start the beeping
     void isStartBeepButtonAvailable() {
-        float limit = 3;
-        if (countdownTick >= limit ) {
+        if (countdownTick >= alertFrequencyLowerLimit ) {
             startBeepAndChrono.setVisibility(View.VISIBLE);
-        } else if (countdownTick < limit && countdownTick >= 0) {
+        } else if (countdownTick < alertFrequencyLowerLimit && countdownTick >= 0) {
             // alert the user that their time is too small
             startBeepAndChrono.setVisibility(View.GONE);
         } else if (countdownTick < 0) {
@@ -271,51 +261,51 @@ public class MainActivity extends WearableActivity {
         });
 
         // create countdown timer for the sound alerts
-        beepTimer = new preciseCountdown((int) (countdownLen * 1000), (int) (countdownTick * 1000), 0) {
+        alertTimer = new preciseCountdown((int) (countdownLen * 1000), (int) (countdownTick * 1000), 0) {
             @Override
             public void onTick(long millisUntilFinished) {
-                playTheSound();
+                playTheAlert();
             }
 
             @Override
             public void onFinished() {
-                playTheSound();
+                playTheAlert();
             }
         };
 
         // These two values represent the original state of the beep timer
-        beepTimer.setWasCancelled(false);
-        beepTimer.setWasStarted(false);
+        alertTimer.setWasCancelled(false);
+        alertTimer.setWasStarted(false);
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        beepTimer.stop();
+        alertTimer.stop();
         bellSound.release();
     }
 
     public void startBeeper() {
         if (countdownTick >= 2) {        // if the user entered a beep frequency 2 sec or greater, that's good. if not, we stop them.
             // we're good to go, continue
-            beepTimer.setInterval((long)(countdownTick * 1000));       // this makes sure the value is up-to-date with what the user entered
+            alertTimer.setInterval((long)(countdownTick * 1000));       // this makes sure the value is up-to-date with what the user entered
 
-            beepTimer.start();
-        } else if (countdownTick >= 0 && countdownTick < 2) {                            // We should probably send the user an error message instead. if the user entered a beep frequency less than our specified limit, we won't start the beeping, but we will start the stopwatch.
+            alertTimer.start();
+        } else if (countdownTick >= 0 && countdownTick < 2) {
             return;
         } else if (countdownTick < 0) {     // the user asked for no beeping, so don't alert them, just don't beep
             return;
         }
     }
 
-    public void playTheSound() {
+    public void playTheAlert() {
         if (isBeepEnabled) {
             int result = am.requestAudioFocus(afChangeListener,
-                    // Use the music stream.
-                    AudioManager.STREAM_MUSIC,
-                    // Request permanent focus.
-                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+                // Use the music stream.
+                AudioManager.STREAM_MUSIC,
+                // Request permanent focus.
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
 
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 // Start playback
@@ -333,7 +323,7 @@ public class MainActivity extends WearableActivity {
     }
 
     public void startBeepAndChrono(View view) {
-        if (!chronometer.isRunning() && !beepTimer.isWasStarted() && !beepTimer.isWasCancelled()) {
+        if (!chronometer.isRunning() && !alertTimer.isWasStarted() && !alertTimer.isWasCancelled()) {
             startBeeper();
             chronometer.start();
             lapChrono.start();
@@ -379,8 +369,8 @@ public class MainActivity extends WearableActivity {
     }
 
     public void stopBeeper(View view) {
-        if (beepTimer.isWasStarted()) {
-            beepTimer.stop();
+        if (alertTimer.isWasStarted()) {
+            alertTimer.stop();
         }
     }
 
@@ -408,17 +398,28 @@ public class MainActivity extends WearableActivity {
                 (((minutePickerInterval1.getValue() * 10) + minutePickerInterval2.getValue() ) * 60)
                         + ((secondPickerInterval1.getValue() * 10) + secondPickerInterval2.getValue())
                         + (float) (((millisecondPickerInterval1.getValue() * 10) + millisecondPickerInterval2.getValue()) * levelOfAccuracy));
-        countdownTick = interval;
-        long newInterval = (long) (interval * 1000);       // this will need to be changed to something the user defines
-        // beepTimer.stop();
-        beepTimer.setInterval(newInterval);
-        beepTimeSelect.setVisibility(View.GONE);
 
-        isStartBeepButtonAvailable();
+        if (interval >= alertFrequencyLowerLimit) {
+            countdownTick = interval;
+            long newInterval = (long) (interval * 1000);       // this will need to be changed to something the user defines
+            // alertTimer.stop();
+            alertTimer.setInterval(newInterval);
+            beepTimeSelect.setVisibility(View.GONE);
+
+            isStartBeepButtonAvailable();
+        }
+        else {
+            Context context = getApplicationContext();
+            CharSequence text = "Frequency entered was less than " + alertFrequencyLowerLimit + " seconds. Please enter a frequency of at least " + alertFrequencyLowerLimit + " seconds.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 
     public void restartBeeper(View view) {
-        beepTimer.restart();
+        alertTimer.restart();
         chronometer.start();
         lapChrono.start();
 
