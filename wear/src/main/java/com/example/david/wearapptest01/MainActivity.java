@@ -47,7 +47,7 @@ public class MainActivity extends WearableActivity {
     public Chronometer chronometer, lapChrono;
     public preciseCountdown beepTimer;
     private float countdownLen = 86400;
-    private float countdownTick = (float) 18.75;
+    private float countdownTick = (float) 12;
     private float levelOfAccuracy = (float) .01;
 
     public MediaPlayer bellSound;
@@ -224,12 +224,12 @@ public class MainActivity extends WearableActivity {
 
     // Determines whether UI should display button for the user to start the beeping
     void isStartBeepButtonAvailable() {
-        float limit = 2;
+        float limit = 3;
         if (countdownTick >= limit ) {
             startBeepAndChrono.setVisibility(View.VISIBLE);
         } else if (countdownTick < limit && countdownTick >= 0) {
-            startBeepAndChrono.setVisibility(View.VISIBLE);
-            startBeepAndChrono.setText("Time must be at least " + limit + " sec");
+            // alert the user that their time is too small
+            startBeepAndChrono.setVisibility(View.GONE);
         } else if (countdownTick < 0) {
             startBeepAndChrono.setVisibility(View.GONE);
         }
@@ -413,6 +413,8 @@ public class MainActivity extends WearableActivity {
         // beepTimer.stop();
         beepTimer.setInterval(newInterval);
         beepTimeSelect.setVisibility(View.GONE);
+
+        isStartBeepButtonAvailable();
     }
 
     public void restartBeeper(View view) {

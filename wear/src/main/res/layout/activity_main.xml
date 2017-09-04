@@ -237,7 +237,72 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 tools:context=".MainActivity">
-            <LinearLayout
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    tools:context=".MainActivity">
+                    <TextView
+                        android:layout_width="@dimen/numberPickerWidth"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="M"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="@dimen/numberPickerWidth"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="M"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="5dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text=":"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="@dimen/numberPickerWidth"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="S"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="@dimen/numberPickerWidth"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="S"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="5dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="."
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="@dimen/numberPickerWidth"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="s"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                    <TextView
+                        android:layout_width="@dimen/numberPickerWidth"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:text="s"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/numberPickerLabelTextSize" />
+                </LinearLayout>
+                <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -263,12 +328,13 @@
                     min="0" />
 
                 <TextView
+                    android:id="@+id/textView4"
                     android:layout_width="5dp"
                     android:layout_height="60dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="18dp"
                     android:gravity="center"
-                    android:text=":" />
+                    android:text=":"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="38dp" />
 
                 <com.example.david.wearapptest01.NumberPickerCustom
                     android:layout_width="@dimen/numberPickerWidth"
@@ -276,7 +342,7 @@
                     android:descendantFocusability="blocksDescendants"
                     android:id="@+id/secondPickerInterval1"
 
-                    value="0"
+                    value="1"
                     max="5"
                     min="0" />
                 <com.example.david.wearapptest01.NumberPickerCustom
@@ -294,7 +360,7 @@
                     android:layout_height="60dp"
                     android:theme="@dimen/NumberPickerText"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="18dp"
+                    android:textSize="38dp"
                     android:gravity="center"
                     android:text="." />
 
