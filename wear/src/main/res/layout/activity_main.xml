@@ -396,6 +396,54 @@
                     android:layout_height="wrap_content"
                     android:text="OK"
                     android:onClick="changeBeeper" />
+
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/imageButton7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_rotate"
+                android:onClick="showOrHideClearAllSplits" />
+            <LinearLayout
+                android:id="@+id/clearAllSplits"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                tools:context=".MainActivity"
+                android:visibility="gone" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Are you sure you want to clear all data?" />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    tools:context=".MainActivity">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_cc_clear"
+                        android:onClick="showOrHideClearAllSplits" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="eraseSharedPreferencesData"
+                        android:src="@drawable/ic_cc_checkmark" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView

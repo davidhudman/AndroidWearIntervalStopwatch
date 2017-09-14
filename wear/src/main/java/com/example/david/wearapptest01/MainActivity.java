@@ -1,6 +1,7 @@
 package com.example.david.wearapptest01;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -56,13 +57,13 @@ public class MainActivity extends WearableActivity {
     public String TIMER_DATA_DATA;
     public Button startBeepAndChrono;
 
-    public LinearLayout beepTimeSelect;
+    public LinearLayout beepTimeSelect, clearAllSplitsLayout;
     public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
             millisecondPickerInterval1, minutePickerInterval2,
             secondPickerInterval2, millisecondPickerInterval2;
 
     // Dev Testing variables
-    public boolean isDeveloperTestingEnabled = false;
+    public boolean isDeveloperTestingEnabled = true;
     public TextView devTestFieldText;
     public int gestureCounter = 0;
 
@@ -145,6 +146,7 @@ public class MainActivity extends WearableActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
+        // loadDeveloperComponents();
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         lapChrono = (Chronometer) findViewById(R.id.lapChrono);
@@ -152,6 +154,12 @@ public class MainActivity extends WearableActivity {
         startBeepAndChrono = (Button) findViewById(R.id.startBeepAndChrono);
         splitsView = (TextView) findViewById(R.id.splitsView);
         beepTimeSelect = (LinearLayout) findViewById(R.id.beepTimeSelect);
+        clearAllSplitsLayout = (LinearLayout) findViewById(R.id.clearAllSplits);
+
+        // get saved data
+        SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String s = sharePref.getString("splitsText", "");
+        splitsView.setText(s);
 
         // variables related to picking the numbers
         minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
@@ -223,16 +231,18 @@ public class MainActivity extends WearableActivity {
         Toast.makeText(context, toastText, duration).show();
     }
 
-    void toggleDeveloperComponents() {
+    void loadDeveloperComponents() {
         if (isDeveloperTestingEnabled) {    // then we need to disable developer mode
-            devTestFieldText.setVisibility(View.GONE);
-        }
-        else {                              // then we need to enable developer mode
             devTestFieldText.setVisibility(View.VISIBLE);
         }
+        else {                              // then we need to enable developer mode
+            devTestFieldText.setVisibility(View.GONE);
+        }
+    }
 
+    void toggleDeveloperComponents() {
         isDeveloperTestingEnabled = !isDeveloperTestingEnabled;
-
+        loadDeveloperComponents();
     }
 
     // Determines whether UI should display button for the user to start the beeping
@@ -355,18 +365,21 @@ public class MainActivity extends WearableActivity {
 
     public void chronometerClick(View view) {
         if (chronometer.isRunning()) {
+            String tempSplitText = "Lap" + threeDigits.format(lap) + " - " + chronometer.getSplit(lap) + "\n" + splitsView.getText().toString();
             if (lap == 0) {
-                splitsView.setText("Lap" + threeDigits.format(lap) + " - "
-                        + chronometer.getSplit(lap)
-                        + "\n" + splitsView.getText().toString());  // add everything that was already there, too
+                splitsView.setText(tempSplitText);  // add everything that was already there, too
             } else {
-                splitsView.setText("Lap" + threeDigits.format(lap) + " - "
-                        + chronometer.getSplit(lap)
-                        + "\n" + splitsView.getText().toString());  // add everything that was already there, too
+                splitsView.setText(tempSplitText);  // add everything that was already there, too
             }
             lap++;
             lapChrono.restart();
             lapChrono.setBase(chronometer.getLastSplit());
+
+            // save the data somewhere in case the app gets closed
+            SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharePref.edit();
+            editor.putString("splitsText", tempSplitText);
+            editor.apply();
         }
         else {
             long tempElapsedTime = SystemClock.elapsedRealtime();
@@ -379,6 +392,25 @@ public class MainActivity extends WearableActivity {
             else {
                 lapChrono.setBase(chronometer.getLastSplit());
             }
+        }
+
+    }
+
+    public void eraseSharedPreferencesData(View view) {
+        SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharePref.edit();
+        editor.putString("splitsText", "");
+        editor.apply();
+        splitsView.setText("");
+        showOrHideClearAllSplits(view);
+    }
+
+    public void showOrHideClearAllSplits(View view) {
+        if (clearAllSplitsLayout.getVisibility() == View.VISIBLE) {
+            clearAllSplitsLayout.setVisibility(View.GONE);
+        }
+        else {
+            clearAllSplitsLayout.setVisibility(View.VISIBLE);
         }
 
     }
