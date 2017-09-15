@@ -157,9 +157,7 @@ public class MainActivity extends WearableActivity {
         clearAllSplitsLayout = (LinearLayout) findViewById(R.id.clearAllSplits);
 
         // get saved data
-        SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String s = sharePref.getString("splitsText", "");
-        splitsView.setText(s);
+        splitsView.setText(getSavedSharedPreferences("splitsText"));
 
         // variables related to picking the numbers
         minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
@@ -376,10 +374,7 @@ public class MainActivity extends WearableActivity {
             lapChrono.setBase(chronometer.getLastSplit());
 
             // save the data somewhere in case the app gets closed
-            SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharePref.edit();
-            editor.putString("splitsText", tempSplitText);
-            editor.apply();
+            updateSharedPreferences("splitsText", tempSplitText);
         }
         else {
             long tempElapsedTime = SystemClock.elapsedRealtime();
@@ -396,11 +391,23 @@ public class MainActivity extends WearableActivity {
 
     }
 
-    public void eraseSharedPreferencesData(View view) {
+    public String getSavedSharedPreferences(String field) {
+        SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        return sharePref.getString(field, "");
+    }
+
+    public void updateSharedPreferences(String field, String value) {
+        // update stored data
         SharedPreferences sharePref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharePref.edit();
-        editor.putString("splitsText", "");
+        editor.putString(field, value);
         editor.apply();
+    }
+
+    public void eraseSharedPreferencesData(View view) {
+        updateSharedPreferences("splitsText", "");
+
+        // update the view
         splitsView.setText("");
         showOrHideClearAllSplits(view);
     }
@@ -419,6 +426,10 @@ public class MainActivity extends WearableActivity {
         if (chronometer.isRunning()) {
             chronometer.stop();
             lapChrono.stop(chronometer.getPauseTime());
+            updateSharedPreferences("startTimeCumulative", );
+            updateSharedPreferences("pauseTimeCumulative", );
+            updateSharedPreferences("isStartedCumulative", );
+            updateSharedPreferences("isPausedCumulative", );
         }
     }
 
