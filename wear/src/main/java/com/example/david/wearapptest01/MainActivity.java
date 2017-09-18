@@ -63,7 +63,7 @@ public class MainActivity extends WearableActivity {
             secondPickerInterval2, millisecondPickerInterval2;
 
     // Dev Testing variables
-    public boolean isDeveloperTestingEnabled = true;
+    public boolean isDeveloperTestingEnabled = false;
     public TextView devTestFieldText;
     public int gestureCounter = 0;
 
@@ -156,9 +156,6 @@ public class MainActivity extends WearableActivity {
         beepTimeSelect = (LinearLayout) findViewById(R.id.beepTimeSelect);
         clearAllSplitsLayout = (LinearLayout) findViewById(R.id.clearAllSplits);
 
-        // get saved data
-        splitsView.setText(getSavedSharedPreferences("splitsText"));
-
         // variables related to picking the numbers
         minutePickerInterval1 = (NumberPickerCustom) findViewById(R.id.minutePickerInterval1);
         secondPickerInterval1 = (NumberPickerCustom) findViewById(R.id.secondPickerInterval1);
@@ -169,13 +166,14 @@ public class MainActivity extends WearableActivity {
 
         // Developer Testing Variables
         devTestFieldText = (TextView) findViewById(R.id.devTestField);
+        loadDeveloperComponents();
 
 
         beepTimeSelect.setVisibility(View.GONE);
 
 
-        chronometer.stop();
-        lapChrono.stop();
+        // get saved data
+        chronometerRestore();
 
         // receiveDataFromPreviousActivity();
 
@@ -197,6 +195,53 @@ public class MainActivity extends WearableActivity {
                 toggleDeveloperComponents();
             }
         });
+    }
+
+    public void chronometerRestore() {
+        splitsView.setText(getSavedSharedPreferences("splitsText"));
+        // get data from last stopwatch if it's status was started
+        if (getSavedSharedPreferences("isStartedCumulative") == "true") {
+
+            chronometer.setBase(Long.valueOf(getSavedSharedPreferences("startTimeCumulative")));
+            chronometer.start();
+            // chronometer.setPauseTime(Long.valueOf(getSavedSharedPreferences("pauseTimeCumulative")));
+
+            lapChrono.setBase(Long.valueOf(getSavedSharedPreferences("startTimeLap")));
+            lapChrono.start();
+            // lap++;
+
+        }
+        // if the timer was paused
+        else if (getSavedSharedPreferences("isPausedCumulative") == "true") {
+            chronometer.stop();
+            lapChrono.stop();
+
+            // make sure both timers are reset to their previous values
+            chronometer.setBase(Long.valueOf(getSavedSharedPreferences("startTimeCumulative")));
+            lapChrono.setBase(Long.valueOf(getSavedSharedPreferences("startTimeLap")));
+
+            chronometer.stop(Long.valueOf(getSavedSharedPreferences("pauseTimeCumulative")));
+            lapChrono.stop(Long.valueOf(getSavedSharedPreferences("pauseTimeCumulative")));
+        }
+        // if the timer was not started or paused
+        else {
+            chronometer.stop();
+            lapChrono.stop();
+        }
+    }
+
+    public void chronometerSnapshot() {
+        updateSharedPreferences("splitsText", splitsView.getText().toString());
+
+        updateSharedPreferences("startTimeCumulative", String.valueOf(chronometer.getBase()));
+        updateSharedPreferences("pauseTimeCumulative", String.valueOf(chronometer.getPauseTime()));
+        updateSharedPreferences("isStartedCumulative", String.valueOf(chronometer.isRunning()));
+        updateSharedPreferences("isPausedCumulative", String.valueOf(chronometer.isPaused()));
+
+        updateSharedPreferences("startTimeLap", String.valueOf(lapChrono.getBase()));
+        updateSharedPreferences("pauseTimeLap", String.valueOf(lapChrono.getPauseTime()));
+        updateSharedPreferences("isStartedLap", String.valueOf(lapChrono.isRunning()));
+        updateSharedPreferences("isPausedLap", String.valueOf(lapChrono.isPaused()));
     }
 
     public void switchToNextAlertMode(View view) {
@@ -240,6 +285,7 @@ public class MainActivity extends WearableActivity {
 
     void toggleDeveloperComponents() {
         isDeveloperTestingEnabled = !isDeveloperTestingEnabled;
+        Toast.makeText(getApplicationContext(), "Developer mode " + String.valueOf(isDeveloperTestingEnabled), Toast.LENGTH_SHORT).show();
         loadDeveloperComponents();
     }
 
@@ -373,13 +419,19 @@ public class MainActivity extends WearableActivity {
             lapChrono.restart();
             lapChrono.setBase(chronometer.getLastSplit());
 
+            developerToast("if statement start");
+
             // save the data somewhere in case the app gets closed
-            updateSharedPreferences("splitsText", tempSplitText);
+            chronometerSnapshot();
         }
-        else {
+        else {  // starting from zero
             long tempElapsedTime = SystemClock.elapsedRealtime();
             chronometer.start();
+            chronometerSnapshot();
+
             lapChrono.start();
+
+            developerToast("else statement start");
 
             if (lap == 0) {
                 lapChrono.setBase(chronometer.getmBase());
@@ -389,6 +441,12 @@ public class MainActivity extends WearableActivity {
             }
         }
 
+    }
+
+    public void developerToast(String message) {
+        if (isDeveloperTestingEnabled) {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String getSavedSharedPreferences(String field) {
@@ -406,6 +464,8 @@ public class MainActivity extends WearableActivity {
 
     public void eraseSharedPreferencesData(View view) {
         updateSharedPreferences("splitsText", "");
+        updateSharedPreferences("isStartedCumulative", "false");
+        updateSharedPreferences("isPausedCumulative", "false");
 
         // update the view
         splitsView.setText("");
@@ -426,10 +486,7 @@ public class MainActivity extends WearableActivity {
         if (chronometer.isRunning()) {
             chronometer.stop();
             lapChrono.stop(chronometer.getPauseTime());
-            updateSharedPreferences("startTimeCumulative", );
-            updateSharedPreferences("pauseTimeCumulative", );
-            updateSharedPreferences("isStartedCumulative", );
-            updateSharedPreferences("isPausedCumulative", );
+            chronometerSnapshot();
         }
     }
 

@@ -166,6 +166,10 @@ public class Chronometer extends TextView {
         return isPaused;
     }
 
+    public void setPaused(boolean is_Paused) {
+        isPaused = is_Paused;
+    }
+
     public boolean isRunning() {
         return mStarted;
     }
