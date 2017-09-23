@@ -56,6 +56,13 @@ public class Chronometer extends TextView {
         updateText(mBase);
     }
 
+    public void quit() {
+        // mVisible = false;
+        mStarted = false;
+        mRunning = false;
+        isPaused = false;
+    }
+
     public void setBase(long base) {
         mBase = base;
         dispatchChronometerTick();

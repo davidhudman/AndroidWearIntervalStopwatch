@@ -448,8 +448,16 @@ public class MainActivity extends WearableActivity {
         }
         else {  // starting from zero or paused
             long tempElapsedTime = SystemClock.elapsedRealtime();
-            chronometer.start();
-            lapChrono.start();
+
+            if (!chronometer.isPaused()) {  // if it's not paused, we need to make sure that we're going to get a new base time
+                chronometer.setBase(tempElapsedTime);
+                lapChrono.setBase(tempElapsedTime);
+                chronometer.start();
+                lapChrono.start();
+            } else {
+                chronometer.start();
+                lapChrono.start();
+            }
 
             developerToast("else statement start");
 
@@ -489,6 +497,11 @@ public class MainActivity extends WearableActivity {
         updateSharedPreferences("isPausedCumulative", "false");
         updateSharedPreferences("lastSplitLap", "0");
         updateSharedPreferences("lap", "");
+
+        chronometer.quit();
+        lapChrono.quit();
+        chronometer.setText("00:00.00");
+        lapChrono.setText("00:00.00");
 
         // update the view
         splitsView.setText("");
