@@ -63,7 +63,7 @@ public class MainActivity extends WearableActivity {
             secondPickerInterval2, millisecondPickerInterval2;
 
     // Dev Testing variables
-    public boolean isDeveloperTestingEnabled = false;
+    public boolean isDeveloperTestingEnabled = true;
     public TextView devTestFieldText;
     public int gestureCounter = 0;
 
@@ -229,13 +229,20 @@ public class MainActivity extends WearableActivity {
             } else {    // when there is already a lap split and it is paused currently - this code block seems to mess up lapChrono for some reason and it counts from 172 minutes (not sure if up or down)
                 // make sure both timers are reset to their previous values
                 chronometer.setBase(Long.valueOf(getSavedSharedPreferences("startTimeCumulative")));
-                lapChrono.setBase(Long.valueOf(getSavedSharedPreferences("startTimeLap")));
+                lapChrono.setBase(Long.valueOf(getSavedSharedPreferences("startTimeCumulative")));
 
                 chronometer.stop(Long.valueOf(getSavedSharedPreferences("pauseTimeCumulative")));
-                lapChrono.stop(Long.valueOf(getSavedSharedPreferences("pauseTimeLap")));
+                lapChrono.stop(Long.valueOf(getSavedSharedPreferences("pauseTimeCumulative")));
 
                 chronometer.setText(chronometer.getText(Long.valueOf(getSavedSharedPreferences("pauseTimeCumulative"))));
-                lapChrono.setText(chronometer.getText(Long.valueOf(getSavedSharedPreferences("pauseTimeLap"))));
+                lapChrono.setText(lapChrono.getText(Long.valueOf(getSavedSharedPreferences("pauseTimeLap"))));
+
+                // something here fixes it...
+                //chronometer.getSplit(lap);
+                lapChrono.restart();
+                lapChrono.setBase(Long.valueOf(getSavedSharedPreferences("lastSplitLap")));
+                lapChrono.stop();
+                //lapChrono.setBase(chronometer.getLastSplit());
             }
 
 //            chronometer.setText("Paused");
@@ -255,6 +262,7 @@ public class MainActivity extends WearableActivity {
         updateSharedPreferences("pauseTimeCumulative", String.valueOf(chronometer.getPauseTime()));
         updateSharedPreferences("isStartedCumulative", String.valueOf(chronometer.isRunning()));
         updateSharedPreferences("isPausedCumulative", String.valueOf(chronometer.isPaused()));
+        updateSharedPreferences("lastSplitCumulative", String.valueOf(chronometer.getLastSplit()));
 
         updateSharedPreferences("startTimeLap", String.valueOf(lapChrono.getBase()));
         updateSharedPreferences("pauseTimeLap", String.valueOf(lapChrono.getPauseTime()));
@@ -459,13 +467,12 @@ public class MainActivity extends WearableActivity {
                 lapChrono.start();
             }
 
-            developerToast("else statement start");
-
             if (lap == 0) {
                 lapChrono.setBase(chronometer.getmBase());
             }
             else {
                 lapChrono.setBase(chronometer.getLastSplit());
+                developerToast("else statement start");
             }
         }
         // save the data somewhere in case the app gets closed
@@ -495,8 +502,9 @@ public class MainActivity extends WearableActivity {
         updateSharedPreferences("splitsText", "");
         updateSharedPreferences("isStartedCumulative", "false");
         updateSharedPreferences("isPausedCumulative", "false");
-        updateSharedPreferences("lastSplitLap", "0");
-        updateSharedPreferences("lap", "");
+        updateSharedPreferences("lastSplitLap", "");
+        updateSharedPreferences("lap", "0");
+        lap = 0;
 
         chronometer.quit();
         lapChrono.quit();
@@ -524,8 +532,10 @@ public class MainActivity extends WearableActivity {
 
     public void pauseChrono() {
         if (chronometer.isRunning()) {
-            chronometer.stop();
-            lapChrono.stop(chronometer.getPauseTime());
+            long tempElapsedTime = SystemClock.elapsedRealtime();
+            chronometer.stop(tempElapsedTime);
+            lapChrono.setBase(chronometer.getmBase());
+            lapChrono.stop(tempElapsedTime);
             chronometerSnapshot();
         }
     }
