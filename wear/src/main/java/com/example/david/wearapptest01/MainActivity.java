@@ -436,7 +436,7 @@ public class MainActivity extends WearableActivity {
         if (chronometer.isRunning()) {
             String tempSplitText = "Lap" + threeDigits.format(lap) + " - " + chronometer.getSplit(lap) + "\n" + splitsView.getText().toString();
             if (lap == 0) {
-                splitsView.setText(tempSplitText);  // add everything that was already there, too
+                splitsView.setText(tempSplitText);  // add everything that was already there, too.
             } else {
                 splitsView.setText(tempSplitText);  // add everything that was already there, too
             }
