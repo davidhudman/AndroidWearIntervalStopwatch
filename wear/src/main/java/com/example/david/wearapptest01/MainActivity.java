@@ -50,6 +50,7 @@ public class MainActivity extends WearableActivity {
     final int indexInPatternToRepeat = -1;
     public boolean isVibrateEnabled = true;
     public boolean isBeepEnabled = true;
+    public boolean isNextSplitStartingBeeper = false;
     public int alertFrequencyLowerLimit = 3; // the user needs to enter an alert frequency of at least this many seconds
 
     public static final String ALERT_FREQUENCY = "com.example.david.IntervalTimerSimplest.ALERT_FREQUENCY";
@@ -63,7 +64,7 @@ public class MainActivity extends WearableActivity {
             secondPickerInterval2, millisecondPickerInterval2;
 
     // Dev Testing variables
-    public boolean isDeveloperTestingEnabled = true;
+    public boolean isDeveloperTestingEnabled = false;
     public TextView devTestFieldText;
     public int gestureCounter = 0;
 
@@ -452,6 +453,11 @@ public class MainActivity extends WearableActivity {
             lapChrono.restart();
             lapChrono.setBase(chronometer.getLastSplit());
 
+            if (isNextSplitStartingBeeper) {
+                startBeeper();
+                isNextSplitStartingBeeper = false;
+            }
+
             developerToast("if statement start");
         }
         else {  // starting from zero or paused
@@ -534,7 +540,9 @@ public class MainActivity extends WearableActivity {
         if (chronometer.isRunning()) {
             long tempElapsedTime = SystemClock.elapsedRealtime();
             chronometer.stop(tempElapsedTime);
-            lapChrono.setBase(chronometer.getmBase());
+            if (lap > 0) {
+                lapChrono.setBase(chronometer.getLastSplit());
+            }
             lapChrono.stop(tempElapsedTime);
             chronometerSnapshot();
         }
@@ -588,6 +596,8 @@ public class MainActivity extends WearableActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
+
+        isNextSplitStartingBeeper = true;
     }
 
     public void restartBeeper(View view) {
