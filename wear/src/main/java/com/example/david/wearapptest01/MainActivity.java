@@ -433,6 +433,7 @@ public class MainActivity extends WearableActivity {
             startBeeper();
             chronometer.start();
             lapChrono.start();
+            isNextSplitStartingBeeper = false;
             // startCountdown.setText("STOP BEEP");
         }
     }
@@ -487,8 +488,12 @@ public class MainActivity extends WearableActivity {
 
     public void developerToast(String message) {
         if (isDeveloperTestingEnabled) {
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            userToast(message);
         }
+    }
+
+    public void userToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public String getSavedSharedPreferences(String field) {
@@ -598,13 +603,14 @@ public class MainActivity extends WearableActivity {
         }
 
         isNextSplitStartingBeeper = true;
+        userToast("When the stopwatch is running, pressing the lap split button will start the alerts.");
     }
 
     public void restartBeeper(View view) {
         alertTimer.restart();
         chronometer.start();
         lapChrono.start();
-
+        isNextSplitStartingBeeper = false;
     }
 
     public void nextView(View view) {
