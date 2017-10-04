@@ -455,7 +455,7 @@ public class MainActivity extends WearableActivity {
             lapChrono.setBase(chronometer.getLastSplit());
 
             if (isNextSplitStartingBeeper) {
-                startBeeper();
+                restartBeeper(null);
                 isNextSplitStartingBeeper = false;
             }
 
