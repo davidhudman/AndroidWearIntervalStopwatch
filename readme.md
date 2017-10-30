@@ -2,7 +2,6 @@
 
 This smartwatch app for Android Wear allows users to have basic timing functionality, split tracking, continuous audio/vibrate alerts, music control, and more!
 
-
 --------
 ### Access and Control ###
 
