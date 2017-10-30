@@ -8,8 +8,9 @@ Version: 1.0
 
 * Large text chrono timers
 * Tap timer to capture splits
-* Create continuous audio/vibrate alerts, accurate to 1/100th of a second (the only wearable app on any platform to offer this)
+* Create continuous audio/vibrate alerts, accurate to 1/100th of a second
 * Pause and change alert frequency during workouts
+* The only wearable app on any platform to offer alerts like this
 * Control volume of music from the app
 
 ## Screenshots ##
