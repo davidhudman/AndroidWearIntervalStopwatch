@@ -1,5 +1,5 @@
 # Wearable Training App #
-
+[![](https://raw.githubusercontent.com/davidhudman/AndroidWearIntervalStopwatch/master/wear/src/main/res/mipmap-xxhdpi/ic_launcher.png)](https://github.com/davidhudman/AndroidWearIntervalStopwatch)
 This smartwatch app for Android Wear allows users to have basic timing functionality, split tracking, continuous audio/vibrate alerts, music control, and more.
 
 ## Features ##
