@@ -2,7 +2,7 @@
 
 This smartwatch app for Android Wear allows users to have basic timing functionality, split tracking, continuous audio/vibrate alerts, music control, and more!
 
-[![https://github.com/davidhudman/AndroidWearIntervalStopwatch/blob/a75649a85216029d444c2a6b6573f907d51d2b60/screenshots/MainAppScreen01.jpg]](https://github.com/davidhudman/AndroidWearIntervalStopwatch)
+[![(https://github.com/davidhudman/AndroidWearIntervalStopwatch/blob/a75649a85216029d444c2a6b6573f907d51d2b60/screenshots/MainAppScreen01.jpg)](https://github.com/davidhudman/AndroidWearIntervalStopwatch)
 
 --------
 ### Access and Control ###
