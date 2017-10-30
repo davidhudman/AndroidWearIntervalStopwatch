@@ -24,7 +24,7 @@ Version: 1.0
 
 ### End User Instructions ###
 
-Install and run!
+Install and run! I use this everyday and have really enjoyed using this for interval workouts out the track. If I'm doing 400 repeats, I can set the alerts to vibrate at my planned 100m pace, so I can know whether I'm on pace or not. I also use it for all my easy runs just because the Chrono Timers are easy to read and the splits work well.
 
 -------------
 
