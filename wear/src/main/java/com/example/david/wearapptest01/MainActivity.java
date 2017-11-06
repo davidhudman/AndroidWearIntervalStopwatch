@@ -209,6 +209,10 @@ public class MainActivity extends WearableActivity {
         });
     }
 
+    public void backupSplitData() {
+        // deliver message to Android handset - making a GET request with the data to a website is not an option because Android Wear before 2.0 does not support the watch directly accessing the Internet
+    }
+
     public void chronometerRestore() {
         splitsView.setText(getSavedSharedPreferences("splitsText"));
         // get data from last stopwatch if it's status was started
@@ -457,7 +461,7 @@ public class MainActivity extends WearableActivity {
         if (chronometer.isRunning()) {
             String tempSplitText = "Lap" + threeDigits.format(lap) + " - " + chronometer.getSplit(lap) + "\n" + splitsView.getText().toString();
             if (lap == 0) {
-                splitsView.setText(tempSplitText);  // add everything that was already there, too.
+                splitsView.setText(tempSplitText);  // add everything that was already there, too. We could make this one just add the new stuff, but I like making sure that no old data is lost in case it hasn't been backed up by the user yet.
             } else {
                 splitsView.setText(tempSplitText);  // add everything that was already there, too
             }
