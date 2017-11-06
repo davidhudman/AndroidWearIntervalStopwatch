@@ -9,6 +9,7 @@ import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,6 +58,7 @@ public class MainActivity extends WearableActivity {
     public static final String TIMER_DATA_STRINGS = "Interval,CountdownLength";
     public String TIMER_DATA_DATA;
     public Button startBeepAndChrono;
+    public ImageButton startAlertsButton;
 
     public LinearLayout beepTimeSelect, clearAllSplitsLayout;
     public NumberPickerCustom minutePickerInterval1, secondPickerInterval1,
@@ -153,6 +155,7 @@ public class MainActivity extends WearableActivity {
         lapChrono = (Chronometer) findViewById(R.id.lapChrono);
         textView3 = (TextView) findViewById(R.id.textView3);
         startBeepAndChrono = (Button) findViewById(R.id.startBeepAndChrono);
+        startAlertsButton = (ImageButton) findViewById(R.id.startAlertsButton);
         splitsView = (TextView) findViewById(R.id.splitsView);
         beepTimeSelect = (LinearLayout) findViewById(R.id.beepTimeSelect);
         clearAllSplitsLayout = (LinearLayout) findViewById(R.id.clearAllSplits);
@@ -186,6 +189,14 @@ public class MainActivity extends WearableActivity {
             @Override
             public boolean onLongClick(View v) {
                 // do something
+                return true;
+            }
+        });
+
+        startAlertsButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                changeBeeper(null);
                 return true;
             }
         });
